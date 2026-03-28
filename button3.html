@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Кнопки</title>
+<style>
+  :root{
+    --glass-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.08);
+    --accent1: #6fe8ff;
+    --accent2: #3aa0ff;
+    --text: #ffffff;
+    --blur: 12px;
+  }
+
+  /* Чистая страница — только две кнопки по центру */
+  html,body{height:100%;margin:0;background:#0b0f14;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;display:flex;align-items:center;justify-content:center}
+  .btns{display:flex;gap:14px;align-items:center;justify-content:center;padding:20px}
+
+  .glass-btn{
+    -webkit-tap-highlight-color: transparent;
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:14px 22px;border-radius:12px;
+    color:var(--text);font-weight:700;
+    backdrop-filter: blur(var(--blur)) saturate(120%);-webkit-backdrop-filter: blur(var(--blur));
+    cursor:pointer;transition:transform .16s ease, box-shadow .16s ease, opacity .12s;
+    text-decoration:none;font-size:13px;letter-spacing:.6px;
+    min-width:220px;text-align:center;
+    background: linear-gradient(135deg, rgba(111,232,255,0.14), rgba(58,160,255,0.06));
+    box-shadow: 0 12px 40px rgba(34,122,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+
+  /* Убираем обводку (stroke) у кнопки "РАССЧИТАТЬ СТОИМОСТЬ" */
+  #calcBtn {
+    border: none;
+    /* сохраняем визуальную глубину через тень */
+    box-shadow: 0 14px 48px rgba(34,122,255,0.08), inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+
+  .glass-btn.ghost{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    color:var(--text);
+  }
+  .glass-btn:active{transform:translateY(1px)}
+  .glass-btn:focus{outline:3px solid rgba(79,209,255,0.16);outline-offset:4px}
+
+  /* Модальное окно (скрыто по умолчанию) */
+  .modal-backdrop{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.6);z-index:1200;padding:20px;
+  }
+  .modal-backdrop.open{display:flex}
+  .modal{
+    width:100%;max-width:560px;background:rgba(255,255,255,0.03);border-radius:14px;padding:18px;
+    border:1px solid rgba(255,255,255,0.06);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);color:var(--text);
+  }
+
+  /* Форма */
+  .row{display:flex;gap:10px}
+  .col{flex:1}
+  label{display:block;font-size:13px;margin-bottom:6px;color:rgba(255,255,255,0.9)}
+  input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.25);color:var(--text);font-size:14px}
+  textarea{min-height:90px;resize:vertical}
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .consent{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.9);margin-top:10px}
+  .contact-toggle{display:flex;gap:8px;align-items:center;margin:8px 0}
+  .contact-toggle input{margin-right:6px}
+  .small{font-size:13px;color:rgba(255,255,255,0.75);margin-top:8px}
+  .success{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(34,197,94,0.12), rgba(34,197,94,0.06));border:1px solid rgba(34,197,94,0.18);color:#dfffe6;margin-top:10px}
+  @media (max-width:560px){ .btns{flex-direction:column} .glass-btn{width:100%;min-width:unset} .row{flex-direction:column} }
+</style>
+</head>
+<body>
+
+  <!-- Только две кнопки на странице, без текста -->
+  <div class="btns" role="group" aria-label="Кнопки">
+    <button class="glass-btn" id="calcBtn" aria-haspopup="dialog" aria-label="Рассчитать стоимость">РАССЧИТАТЬ СТОИМОСТЬ</button>
+    <button class="glass-btn ghost" id="aboutBtn" aria-label="О нас">О НАС</button>
+  </div>
+
+  <!-- Скрытое модальное окно с формой -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal" role="document">
+      <h2 id="modalTitle" style="margin:0 0 8px;font-size:18px">Рассчитать стоимость</h2>
+
+      <form id="leadForm" novalidate>
+        <!-- Контакт: по умолчанию телефон, можно выбрать альтернативу -->
+        <div class="contact-toggle" role="radiogroup" aria-label="Выбор контакта">
+          <label style="display:flex;align-items:center;gap:8px">
+            <input type="radio" name="contactType" value="phone" checked>
+            Телефон
+          </label>
+          <label style="display:flex;align-items:center;gap:8px">
+            <input type="radio" name="contactType" value="other">
+            Другой контакт (почта, ссылка)
+          </label>
+        </div>
+
+        <div id="phoneBlock">
+          <label for="phone">Телефон *</label>
+          <input id="phone" name="phone" type="tel" required placeholder="+7 9*** - ****" pattern="[\d+\-\s\(\)\+]{6,}">
+        </div>
+
+        <div id="otherBlock" style="display:none">
+          <label for="otherContact">Другой контакт *</label>
+          <input id="otherContact" name="otherContact" type="text" placeholder="Email или ссылка на соц. сеть">
+          <div class="small">Можно указать email, Telegram/WhatsApp ссылку или профиль в соцсети.</div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label for="company">Название организации</label>
+          <input id="company" name="company" type="text" placeholder="Компания">
+        </div>
+
+        <div style="margin-top:10px">
+          <label for="direction">Направление услуг *</label>
+          <select id="direction" name="direction" required>
+            <option value="">Выберите направление</option>
+            <option>Разработка айдентики (бренда)</option>
+            <option>Моушен дизайн 2D</option>
+            <option>Моушен дизайн 3D</option>
+            <option>Разработка 3D Асетов</option>
+            <option>Дизайн сайта</option>
+            <option>Верстка сайта</option>
+            <option>Чат боты</option>
+            <option>Автоматизация контента</option>
+          </select>
+        </div>
+
+        <div style="margin-top:10px">
+          <label for="comment">Комментарий</label>
+          <textarea id="comment" name="comment" placeholder="Кратко опишите задачу"></textarea>
+        </div>
+
+        <label class="consent"><input type="checkbox" id="consent" name="consent" required> Я даю согласие на обработку персональных данных</label>
+
+        <div class="actions">
+          <button type="button" class="glass-btn ghost" id="closeModal" aria-label="Отмена">Отмена</button>
+          <button type="submit" class="glass-btn" aria-label="Отправить">Отправить</button>
+        </div>
+
+        <div id="formMessage" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  const calcBtn = document.getElementById('calcBtn');
+  const aboutBtn = document.getElementById('aboutBtn');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const closeModal = document.getElementById('closeModal');
+  const leadForm = document.getElementById('leadForm');
+  const formMessage = document.getElementById('formMessage');
+
+  const phoneBlock = document.getElementById('phoneBlock');
+  const otherBlock = document.getElementById('otherBlock');
+  const phoneInput = document.getElementById('phone');
+  const otherInput = document.getElementById('otherContact');
+
+  // "О НАС" — минимальное поведение (без текста на странице)
+  aboutBtn.addEventListener('click', () => {
+    alert('О нас: свяжитесь через форму расчёта стоимости.');
+  });
+
+  // Открыть модал
+  calcBtn.addEventListener('click', () => {
+    modalBackdrop.classList.add('open');
+    modalBackdrop.setAttribute('aria-hidden','false');
+    phoneInput.focus();
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeModalFunc(){
+    modalBackdrop.classList.remove('open');
+    modalBackdrop.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    formMessage.innerHTML = '';
+    leadForm.reset();
+    phoneBlock.style.display = '';
+    otherBlock.style.display = 'none';
+    calcBtn.focus();
+  }
+
+  closeModal.addEventListener('click', closeModalFunc);
+  modalBackdrop.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModalFunc(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modalBackdrop.classList.contains('open')) closeModalFunc(); });
+
+  // Переключение контактного поля
+  leadForm.querySelectorAll('input[name="contactType"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if(e.target.value === 'phone'){
+        phoneBlock.style.display = '';
+        otherBlock.style.display = 'none';
+        phoneInput.required = true;
+        otherInput.required = false;
+        phoneInput.focus();
+      } else {
+        phoneBlock.style.display = 'none';
+        otherBlock.style.display = '';
+        phoneInput.required = false;
+        otherInput.required = true;
+        otherInput.focus();
+      }
+    });
+  });
+
+  // Отправка формы (AJAX) — замените URL на ваш обработчик
+  leadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formMessage.innerHTML = '';
+    const contactType = leadForm.querySelector('input[name="contactType"]:checked').value;
+    if(contactType === 'phone' && !phoneInput.value.trim()){
+      phoneInput.reportValidity();
+      return;
+    }
+    if(contactType === 'other' && !otherInput.value.trim()){
+      otherInput.reportValidity();
+      return;
+    }
+    if(!leadForm.direction.value){
+      leadForm.direction.reportValidity();
+      return;
+    }
+    if(!leadForm.consent.checked){
+      leadForm.consent.reportValidity();
+      return;
+    }
+
+    const payload = {
+      contactType,
+      phone: phoneInput.value.trim(),
+      otherContact: otherInput.value.trim(),
+      company: leadForm.company.value.trim(),
+      direction: leadForm.direction.value,
+      comment: leadForm.comment.value.trim(),
+      consent: leadForm.consent.checked,
+      ts: new Date().toISOString()
+    };
+
+    const submitBtn = leadForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправка...';
+
+    try {
+      const res = await fetch('/send.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+
+      if(res.ok){
+        formMessage.innerHTML = '<div class="success">Спасибо! Ваша заявка отправлена.</div>';
+        setTimeout(closeModalFunc, 1800);
+      } else {
+        throw new Error('Ошибка сервера');
+      }
+    } catch(err){
+      formMessage.innerHTML = '<div style="color:#ffd1d1;margin-top:8px">Не удалось отправить. Попробуйте позже.</div>';
+      console.error(err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Отправить';
+    }
+  });
+</script>
+</body>
+</html>

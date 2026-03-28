@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Наши работы — Donglow</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: linear-gradient(278.57deg, #300F18 0%, #300F18 11.979%, #631F32 13.968%, #300F18 15.680%, #631F32 22.326%, #300F18 27.773%, #631F32 29.997%, #300F18 38.237%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: #BED3EE;
+}
+
+/* Header */
+.page-header {
+  padding: 40px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(70,22,37,0.24);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(190,211,238,0.12);
+  border-radius: 30px;
+  color: rgba(190,211,238,0.65);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.back-btn:hover {
+  background: rgba(99,31,50,0.35);
+  color: #BED3EE;
+  border-color: rgba(190,211,238,0.25);
+}
+
+/* Filters */
+.filters-wrap { padding: 32px 20px 0; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(190,211,238,0.12);
+  background: transparent;
+  color: rgba(190,211,238,0.5);
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.filter-btn:hover {
+  border-color: rgba(190,211,238,0.28);
+  color: rgba(190,211,238,0.85);
+  background: rgba(190,211,238,0.05);
+}
+.filter-btn.active {
+  background: rgba(190,211,238,0.12);
+  border-color: rgba(190,211,238,0.35);
+  color: #BED3EE;
+}
+
+/* Counter */
+.count {
+  margin: 20px 20px 0;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(190,211,238,0.35);
+  text-transform: uppercase;
+}
+
+/* Grid */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 24px 20px 60px;
+}
+
+/* Full-bleed card */
+.case-card {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  height: 320px;
+  border: 1px solid rgba(190,211,238,0.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  text-decoration: none;
+  display: block;
+  background: rgba(48,15,24,0.7);
+  animation: fadeIn 0.4s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.case-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(190,211,238,0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 20px 48px rgba(0,0,0,0.55);
+}
+
+.case-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+/* убрать дублирующуюся квадратную карточку */
+.cases-grid .case-card:last-child .case-card-more {
+  display: flex;
+}
+.cases-grid .case-card:last-child {
+  background: rgba(30, 8, 18, 0.5);
+}
+.case-card:hover .case-card-img { transform: scale(1.04); }
+
+.case-card-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(190,211,238,0.18);
+}
+
+/* Frosted glass + emboss caption zone */
+.case-card-blur-inner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  background: rgba(30, 8, 18, 0.35);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 35%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 -1px 0 rgba(0,0,0,0.28);
+}
+
+.case-card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 18px 16px;
+  z-index: 2;
+}
+.case-card-cat {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(190,211,238,0.5);
+  margin-bottom: 5px;
+}
+.case-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #BED3EE;
+  letter-spacing: 0.02em;
+}
+
+/* Empty state */
+.cases-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 60px 0;
+  font-size: 12px;
+  color: rgba(190,211,238,0.3);
+  letter-spacing: 0.15em;
+}
+
+/* Skeleton */
+.skeleton {
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(70,22,37,0.20);
+  border: 1px solid rgba(190,211,238,0.06);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+/* моб адапт */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 30px 16px 0;
+  }
+  .page-header h1 {
+    font-size: 20px;
+  }
+  .filters-wrap {
+    padding: 24px 16px 0;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    font-size: 9px;
+  }
+  .count {
+    margin: 16px 16px 0;
+    font-size: 9px;
+  }
+  .cases-grid {
+    padding: 20px 16px 40px;
+    gap: 16px;
+  }
+  .case-card {
+    height: 280px;
+  }
+  .case-card-body {
+    padding: 12px 16px 14px;
+  }
+  .case-card-title {
+    font-size: 13px;
+  }
+  .case-card-blur-inner {
+    height: 90px;
+  }
+}
+
+.blog-card-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #BED3EE;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .blog-card-title {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+  }
+  
+  button, 
+  .filter-btn, 
+  .back-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  body {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>НАШИ РАБОТЫ</h1>
+  <a href="./index.html" class="back-btn">← На главную</a>
+</div>
+
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="all" onclick="setFilter(this)">Все</button>
+  </div>
+</div>
+
+<div class="count" id="count"></div>
+
+<div class="cases-grid" id="cases-grid">
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+</div>
+
+<script>
+var BASE_URL = window.location.href.includes('htmlpreview.github.io') ? 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/Reykuz/-/main/' : './';
+var INDEX_PATH    = './case str/index.json';
+var ARTICLES_PATH = './case str/';
+var allCases      = [];
+var currentCat    = 'all';
+
+fetch(INDEX_PATH)
+  .then(function(r) {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  })
+  .then(function(data) {
+    allCases = data;
+    buildFilters(data);
+    renderCards(data);
+  })
+  .catch(function() {
+    renderEmpty();
+  });
+
+function buildFilters(cases) {
+  var cats = [];
+  cases.forEach(function(c) {
+    if (c.category && cats.indexOf(c.category) === -1) cats.push(c.category);
+  });
+  var wrap = document.getElementById('filters');
+  cats.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    btn.onclick = function(){ setFilter(this); };
+    wrap.appendChild(btn);
+  });
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentCat = btn.dataset.cat;
+  var filtered = currentCat === 'all'
+    ? allCases
+    : allCases.filter(function(c){ return c.category === currentCat; });
+  renderCards(filtered);
+}
+
+function renderCards(cases) {
+  var grid  = document.getElementById('cases-grid');
+  var count = document.getElementById('count');
+  grid.innerHTML = '';
+
+  count.textContent = cases.length + ' ' + plural(cases.length, 'кейс', 'кейса', 'кейсов');
+
+  if (!cases.length) {
+    grid.innerHTML = '<div class="cases-empty">В ЭТОЙ КАТЕГОРИИ НЕТ РАБОТ</div>';
+    return;
+  }
+
+  cases.forEach(function(c, i) {
+    var card = document.createElement('a');
+    card.className = 'case-card';
+    card.href = BASE_URL + 'case%20str/' + c.file;
+    card.style.animationDelay = (i * 0.06) + 's';
+
+    var imgHTML = c.cover
+      ? '<img class="case-card-img" src="' + ARTICLES_PATH + esc(c.cover) + '" alt="' + esc(c.title || '') + '" onerror="this.style.display=\'none\'">'
+      : '<div class="case-card-placeholder">НЕТ ОБЛОЖКИ</div>';
+
+    card.innerHTML =
+      imgHTML +
+      '<div class="case-card-blur-inner"></div>' +
+      '<div class="case-card-body">' +
+        '<div class="case-card-cat">' + esc(c.category || '') + '</div>' +
+        '<div class="case-card-title">' + esc(c.title || 'Без названия') + '</div>' +
+      '</div>';
+
+    grid.appendChild(card);
+  });
+}
+
+function renderEmpty() {
+  document.getElementById('cases-grid').innerHTML = '<div class="cases-empty">КЕЙСЫ ЕЩЁ НЕ ДОБАВЛЕНЫ</div>';
+  document.getElementById('count').textContent = '';
+}
+
+function plural(n, one, few, many) {
+  var mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

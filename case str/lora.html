@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Lora — Donglow</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  font-family:'Manrope',sans-serif; 
+  background:linear-gradient(278.57deg,#300F18 0%,#300F18 11.979%,#631F32 13.968%,#300F18 15.680%,#631F32 22.326%,#300F18 27.773%,#631F32 29.997%,#300F18 38.237%); 
+  background-attachment:fixed; 
+  min-height:100vh; 
+  color:#BED3EE; 
+}
+.hero { 
+  width:100%; 
+  height:480px; 
+  position:relative; 
+  overflow:hidden; 
+}
+.hero img { 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; 
+  display:block; 
+}
+.hero-overlay { 
+  position:absolute; 
+  inset:0; 
+  background:linear-gradient(to bottom,rgba(48,15,24,0.1) 0%,rgba(48,15,24,0.85) 100%); 
+}
+.hero-content { 
+  position:absolute; 
+  bottom:48px; 
+  left:90px; 
+  right:90px; 
+}
+.article-cat { 
+  font-size:11px; 
+  letter-spacing:0.3em; 
+  text-transform:uppercase; 
+  color:rgba(190,211,238,0.5); 
+  margin-bottom:16px; 
+}
+.article-title { 
+  font-size:48px; 
+  font-weight:500; 
+  line-height:1.1; 
+  letter-spacing:0.02em; 
+}
+.article-body { 
+  max-width:800px; 
+  margin:64px auto; 
+  padding:0 90px; 
+}
+.article-body h1 { 
+  font-size:32px; 
+  font-weight:500; 
+  margin:40px 0 16px; 
+}
+.article-body h2 { 
+  font-size:24px; 
+  font-weight:500; 
+  margin:32px 0 12px; 
+}
+.article-body h3 { 
+  font-size:18px; 
+  font-weight:500; 
+  margin:24px 0 10px; 
+}
+.article-body p { 
+  font-size:16px; 
+  line-height:1.8; 
+  margin-bottom:20px; 
+  color:rgba(190,211,238,0.85); 
+}
+.article-body ul { 
+  padding-left:24px; 
+  margin-bottom:20px; 
+}
+.article-body li { 
+  font-size:16px; 
+  line-height:1.8; 
+  margin-bottom:8px; 
+  color:rgba(190,211,238,0.85); 
+}
+.article-body strong { 
+  font-weight:500; 
+  color:#BED3EE; 
+}
+.article-body em { 
+  font-style:italic; 
+}
+.back-btn { 
+  display:inline-flex; 
+  align-items:center; 
+  gap:8px; 
+  padding:12px 24px; 
+  background:rgba(70,22,37,0.4); 
+  backdrop-filter:blur(16px); 
+  border:1px solid rgba(190,211,238,0.15); 
+  border-radius:10px; 
+  color:rgba(190,211,238,0.7); 
+  font-family:'Manrope',sans-serif; 
+  font-size:12px; 
+  letter-spacing:0.2em; 
+  text-transform:uppercase; 
+  text-decoration:none; 
+  margin:40px 90px 0; 
+  transition:all 0.2s; 
+}
+.back-btn:hover { 
+  background:rgba(70,22,37,0.7); 
+  color:#BED3EE; 
+}
+
+/* мобильная адаптация */
+@media (max-width: 768px) {
+  .hero {
+    height: 320px;
+  }
+  
+  .hero-content {
+    left: 20px;
+    right: 20px;
+    bottom: 24px;
+  }
+  
+  .article-title {
+    font-size: 28px;
+  }
+  
+  .article-cat {
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+  
+  .article-body {
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  
+  .article-body h1 {
+    font-size: 24px;
+    margin: 28px 0 12px;
+  }
+  
+  .article-body h2 {
+    font-size: 20px;
+    margin: 24px 0 10px;
+  }
+  
+  .article-body h3 {
+    font-size: 16px;
+    margin: 20px 0 8px;
+  }
+  
+  .article-body p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  
+  .article-body li {
+    font-size: 16px;
+  }
+  
+  .article-body ul {
+    padding-left: 20px;
+  }
+  
+  .back-btn {
+    margin: 24px 20px 0;
+    padding: 10px 20px;
+    font-size: 10px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 260px;
+  }
+  
+  .article-title {
+    font-size: 24px;
+  }
+  
+  .article-body {
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  
+  .article-body p {
+    font-size: 15px;
+  }
+  
+  .article-body li {
+    font-size: 15px;
+  }
+}
+</style>
+</head>
+<body>
+<a href="javascript:history.back()" class="back-btn">← Назад</a>
+<div class="hero">
+<img src="./image/bv15_27022026.jpg" alt="Lora">
+<div class="hero-overlay"></div>
+<div class="hero-content"><div class="article-cat">3D / MOTION</div><h1 class="article-title">Lora: 3D-анимация для fashion-бренда</h1></div>
+</div>
+<div class="article-body">
+<h2>Задача</h2>
+<p>Создать серию 3D-роликов для запуска новой коллекции одежды. Бренд хотел выделиться среди конкурентов и привлечь молодую аудиторию через нестандартную визуальную эстетику.</p>
+
+<h2>Решение</h2>
+<p>Мы разработали концепцию, где одежда становится частью футуристического мира. Каждый предмет гармонично вписан в окружение из абстрактных форм и динамического света. Использовали технологии рендеринга в реальном времени для быстрой итерации.</p>
+
+<h2>Результат</h2>
+<p>Ролики набрали более 500 000 просмотров за первую неделю. Охват в соцсетях вырос на 240%, вовлечённость увеличилась в 3 раза. Бренд получил запросы на коллаборации от известных дизайнеров.</p>
+
+<p><strong>Технологии:</strong> Cinema 4D, Octane Render, After Effects, Unreal Engine.</p>
+</div>
+</body>
+</html>
